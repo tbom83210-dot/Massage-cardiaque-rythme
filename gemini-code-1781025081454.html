@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>RCP Assistant</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#111111">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; font-family: system-ui, -apple-system, sans-serif; }
+        body { background: #111; color: #fff; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        
+        /* Haut de l'écran : Infos et Chrono */
+        header { display: flex; justify-content: space-between; padding: 15px; background: #222; font-size: 1.1rem; font-weight: bold; }
+        #start-time { color: #aaa; }
+        #global-chrono { color: #ff4444; font-size: 1.4rem; }
+
+        /* Barre de progression globale (cycle / temps) */
+        #progress-container { width: 100%; height: 8px; background: #333; }
+        #progress-bar { width: 0%; height: 100%; background: #00e676; transition: width 0.2s linear; }
+
+        /* Zone centrale : Compteur et Flash Visuel */
+        main { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; transition: background 0.05s ease; }
+        .flash-active { background: #fff !important; }
+        .flash-active #counter, .flash-active #mode-indicator { color: #000 !important; }
+        
+        #counter { font-size: 7rem; font-weight: 900; z-index: 2; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        #mode-indicator { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; color: #ffeb3b; margin-bottom: 10px; z-index: 2; }
+        
+        /* Compte à rebours insufflation (5s) */
+        #insuflation-countdown { display: none; font-size: 4rem; color: #ff9800; font-weight: bold; animation: pulse 1s infinite; z-index: 2; }
+
+        /* Bas de l'écran : Menu et Gros Boutons (Accessibilité 1 main) */
+        footer { background: #222; padding: 15px; display: flex; flex-direction: column; gap: 15px; }
+        .mode-selector { display: flex; gap: 10px; }
+        .mode-btn { flex: 1; padding: 12px; background: #333; border: 2px solid #555; color: #fff; border-radius: 8px; font-weight: bold; font-size: 0.9rem; }
+        .mode-btn.active { background: #ffeb3b; color: #000; border-color: #ffeb3b; }
+
+        .action-btn { width: 100%; padding: 24px; font-size: 1.6rem; font-weight: bold; border: none; border-radius: 12px; color: #000; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+        .btn-start { background: #00e676; }
+        .btn-pause { background: #ff9800; }
+        .btn-resume { background: #00e676; }
+
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div id="start-time">Début : --:--:--</div>
+        <div id="global-chrono">00:00</div>
+    </header>
+
+    <div id="progress-container"><div id="progress-bar"></div></div>
+
+    <main id="flash-zone">
+        <div id="mode-indicator">Sélectionnez un mode</div>
+        <div id="counter">0</div>
+        <div id="insuflation-countdown">5s</div>
+    </main>
+
+    <footer>
+        <div class="mode-selector">
+            <button class="mode-btn active" id="mode-continue" onclick="setMode('continue')">CONTINU (AED)</button>
+            <button class="mode-btn" id="mode-30-2" onclick="setMode('30-2')">CYCLE 30:2</button>
+        </div>
+        
+        <button id="main-action-btn" class="action-btn btn-start" onclick="handleMainAction()">COMMENCER</button>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

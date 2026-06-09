@@ -1,0 +1,18 @@
+{
+  "name": "Assistant RCP Urgence",
+  "short_name": "RCP",
+  "description": "Métronome visuel et sonore pour massage cardiaque.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme-color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/508/508786.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
